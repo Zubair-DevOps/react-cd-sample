@@ -14,28 +14,32 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Step 2: Set up Node.js (use version 18 or higher to avoid compatibility issues)
+    # Step 2: Set up Node.js (use version 18 to meet Firebase CLI requirements)
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18'  # Upgrading Node.js to version 18
+        node-version: '18.x'  # Use Node.js v18 explicitly
 
-    # Step 3: Install dependencies
+    # Step 3: Verify Node.js version (optional, for debugging purposes)
+    - name: Check Node.js version
+      run: node -v  # This will log the Node.js version to ensure v18.x is being used
+
+    # Step 4: Install dependencies
     - name: Install dependencies
       run: |
         npm install  # Or yarn install if you're using Yarn
 
-    # Step 4: Run tests (optional, can skip if no tests are present)
+    # Step 5: Run tests (optional, skip if no tests are present)
     - name: Run tests
       run: |
-        npm run test  # Change this if you have a different command for tests
+        npm run test  # Adjust if you have different test commands
 
-    # Step 5: Build the project
+    # Step 6: Build the project
     - name: Build project
       run: |
-        npm run build  # Or yarn build, based on your build command
+        npm run build  # Or yarn build, depending on your setup
 
-    # Step 6: Deploy to Firebase Hosting
+    # Step 7: Deploy to Firebase Hosting
     - name: Deploy to Firebase Hosting
       env:
         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
