@@ -17,17 +17,18 @@ jobs:
     - name: Use Node.js version ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
-        node-version: 18.0.0
-    
-    - run: npm i
+        node-version: 18.x
+
+    - run: npm install
     - run: npm install -g firebase-tools
     - run: npm run test
     - run: npm run build
     - name: Archive Build
-      uses: echapmanFromBunnings/upload-artifact@3.0.0
+      uses: actions/upload-artifact@v3
       with:
         name: build
         path: build
+
   deploy:
     name: Deploy
     needs: build
@@ -40,8 +41,9 @@ jobs:
           name: build
           path: build
       - name: Deploy to Firebase
-        uses: w9jds/firebase-action@v1.4.0
+        uses: firebase/firebase-hosting-action@v0.3.0  # Use the latest version available
         with:
           args: deploy --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
