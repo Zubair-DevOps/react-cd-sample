@@ -41,7 +41,7 @@ jobs:
           name: build
           path: build
       - name: Deploy to Firebase
-        uses: firebase/firebase-hosting-action@v0.3.0  # Use the latest version available
+        uses: w9jds/firebase-action@v1.4.0  # Use this action
         with:
           args: deploy --only hosting
         env:
